@@ -1,0 +1,282 @@
+:root {
+  --bg: #12151f;
+  --bg-deep: #0d1018;
+  --surface: #1a1f2e;
+  --surface-2: #1e2435;
+  --display-bg: #0f1218;
+  --text: #e4e8f0;
+  --text-muted: #6b7a94;
+  --text-dim: #4a566a;
+  --accent: #3b82f6;
+  --accent-dim: #2563eb;
+  --accent-glow: rgba(59,130,246,0.15);
+  --op: #d97706;
+  --op-hover: #f59e0b;
+  --op-text: #fef3c7;
+  --eq: #2563eb;
+  --eq-hover: #3b82f6;
+  --fn: #1e3a5f;
+  --fn-hover: #254a77;
+  --fn-text: #93c5fd;
+  --clear: #5b21b6;
+  --clear-hover: #7c3aed;
+  --mem: #1e3a4a;
+  --mem-hover: #25495e;
+  --mem-text: #67e8f9;
+  --back-text: #fca5a5;
+  --deg-text: #86efac;
+  --deg-bg: #14532d;
+  --deg-hover: #166534;
+  --inv-text: #fbbf24;
+  --inv-bg: #451a03;
+  --inv-hover: #5c2d0a;
+  --key-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+  --radius: 10px;
+  --radius-sm: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: "Outfit", system-ui, sans-serif;
+  background: radial-gradient(ellipse at 50% 0%, #1a2040 0%, var(--bg) 55%, var(--bg-deep) 100%);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.app {
+  width: 100%;
+  max-width: 28rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  padding: 0 0.25rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.mode-tabs {
+  display: flex;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.mode-tab {
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mode-tab:hover { color: var(--text); }
+
+.mode-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Calculator */
+.calculator {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 1.1rem;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+}
+
+/* Display */
+.display {
+  background: var(--display-bg);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.9rem;
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  border: 1px solid rgba(255,255,255,0.05);
+  gap: 2px;
+}
+
+.display__expr {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  min-height: 18px;
+  text-align: right;
+  word-break: break-all;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.display__value {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: clamp(1.6rem, 7vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: break-all;
+  text-align: right;
+  color: var(--text);
+  transition: color 0.1s;
+}
+
+.display__value.error { color: #f87171; }
+
+/* Keys grid */
+.keys {
+  display: grid;
+  gap: 6px;
+}
+
+.keys--sci { grid-template-columns: repeat(5, 1fr); }
+.keys--basic { grid-template-columns: repeat(4, 1fr); }
+.hidden { display: none; }
+
+/* Key base */
+.key {
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.2rem;
+  cursor: pointer;
+  box-shadow: var(--key-shadow);
+  transition: transform 0.07s ease, background 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.key:hover { background: #26304a; }
+.key:active { transform: translateY(1px); box-shadow: none; }
+.key:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Function keys */
+.key--fn {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--fn);
+  color: var(--fn-text);
+  letter-spacing: 0.02em;
+}
+.key--fn:hover { background: var(--fn-hover); }
+
+/* Operator keys */
+.key--op {
+  background: var(--op);
+  color: var(--op-text);
+  font-size: 1.15rem;
+}
+.key--op:hover { background: var(--op-hover); }
+
+/* Equals */
+.key--eq {
+  background: var(--eq);
+  color: #fff;
+  font-size: 1.2rem;
+}
+.key--eq:hover { background: var(--eq-hover); }
+
+/* Clear */
+.key--clear {
+  background: var(--clear);
+  color: #ede9fe;
+  font-size: 0.9rem;
+}
+.key--clear:hover { background: var(--clear-hover); }
+
+/* Memory */
+.key--mem {
+  background: var(--mem);
+  color: var(--mem-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.key--mem:hover { background: var(--mem-hover); }
+
+/* Back */
+.key--back {
+  background: var(--fn);
+  color: var(--back-text);
+  font-size: 0.95rem;
+}
+.key--back:hover { background: var(--fn-hover); }
+
+/* Degree toggle */
+.key--deg {
+  background: var(--deg-bg);
+  color: var(--deg-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.key--deg:hover { background: var(--deg-hover); }
+.key--deg.rad-mode { background: #1a2a5e; color: #bfdbfe; }
+
+/* Inverse toggle */
+.key--inv {
+  background: var(--inv-bg);
+  color: var(--inv-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.key--inv:hover { background: var(--inv-hover); }
+.key--inv.active { background: #92400e; color: #fef3c7; box-shadow: 0 0 0 1px var(--inv-text); }
+
+/* Wide / zero key */
+.key--wide { font-size: 0.9rem; }
+.key--zero { grid-column: span 2; }
+
+/* Span keys */
+.key--equals.keys--sci { grid-column: span 1; }
+
+@media (max-width: 380px) {
+  .key { font-size: 0.95rem; padding: 0.7rem 0.15rem; }
+  .key--fn { font-size: 0.68rem; }
+  .key--mem { font-size: 0.65rem; }
+  .keys { gap: 5px; }
+}
+
+@media (max-width: 320px) {
+  .app { max-width: 100%; }
+  .key { padding: 0.6rem 0.1rem; }
+}

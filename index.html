@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공학용 계산기</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="title">공학용 계산기</h1>
+      <div class="mode-tabs" role="tablist" aria-label="계산기 모드">
+        <button class="mode-tab active" id="tab-sci" role="tab" aria-selected="true" data-mode="sci">공학용</button>
+        <button class="mode-tab" id="tab-basic" role="tab" aria-selected="false" data-mode="basic">기본</button>
+      </div>
+    </header>
+
+    <main class="calculator" role="application" aria-label="공학용 계산기">
+      <div class="display" aria-live="polite">
+        <div class="display__expr" id="expr-line" aria-label="수식"></div>
+        <span class="display__value" id="display">0</span>
+      </div>
+
+      <!-- Scientific keypad -->
+      <div class="keys keys--sci" id="keys-sci">
+        <!-- Row 1: Memory -->
+        <button type="button" class="key key--mem" data-action="mc"  aria-label="메모리 지우기">mc</button>
+        <button type="button" class="key key--mem" data-action="mplus" aria-label="메모리 더하기">m+</button>
+        <button type="button" class="key key--mem" data-action="mminus" aria-label="메모리 빼기">m−</button>
+        <button type="button" class="key key--mem" data-action="mr" aria-label="메모리 불러오기">mr</button>
+        <button type="button" class="key key--clear" data-action="clear" aria-label="전체 지우기">AC</button>
+
+        <!-- Row 2: Trig -->
+        <button type="button" class="key key--fn key--deg" id="deg-btn" data-action="deg" aria-label="각도 모드 전환">DEG</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="sin">sin</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="cos">cos</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="tan">tan</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="/" aria-label="나누기">÷</button>
+
+        <!-- Row 3: Hyp + backspace -->
+        <button type="button" class="key key--fn key--inv" id="inv-btn" data-action="inv" aria-label="역함수 모드">Inv</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="sinh">sinh</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="cosh">cosh</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="tanh">tanh</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="*" aria-label="곱하기">×</button>
+
+        <!-- Row 4: Powers -->
+        <button type="button" class="key key--fn" data-action="fn" data-value="sq">x²</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="cube">x³</button>
+        <button type="button" class="key key--fn" data-action="operator" data-value="pow" data-label="xʸ">xʸ</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="10x">10ˣ</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="-" aria-label="빼기">−</button>
+
+        <!-- Row 5: Roots/Log -->
+        <button type="button" class="key key--fn" data-action="fn" data-value="sqrt">√x</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="cbrt">∛x</button>
+        <button type="button" class="key key--fn" data-action="operator" data-value="root" data-label="ʸ√x">ʸ√x</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="ln">ln</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="+" aria-label="더하기">+</button>
+
+        <!-- Row 6: Misc + nums -->
+        <button type="button" class="key key--fn" data-action="fn" data-value="inv">1/x</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="fact">x!</button>
+        <button type="button" class="key key--fn" data-action="operator" data-value="mod" data-label="mod">mod</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="log">log₁₀</button>
+        <button type="button" class="key key--back" data-action="back" aria-label="지우기">⌫</button>
+
+        <!-- Row 7: 7 8 9 -->
+        <button type="button" class="key" data-action="digit" data-value="7">7</button>
+        <button type="button" class="key" data-action="digit" data-value="8">8</button>
+        <button type="button" class="key" data-action="digit" data-value="9">9</button>
+        <button type="button" class="key key--fn" data-action="const" data-value="3.141592653589793">π</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="abs">|x|</button>
+
+        <!-- Row 8: 4 5 6 -->
+        <button type="button" class="key" data-action="digit" data-value="4">4</button>
+        <button type="button" class="key" data-action="digit" data-value="5">5</button>
+        <button type="button" class="key" data-action="digit" data-value="6">6</button>
+        <button type="button" class="key key--fn" data-action="const" data-value="2.718281828459045">e</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="neg">±</button>
+
+        <!-- Row 9: 1 2 3 -->
+        <button type="button" class="key" data-action="digit" data-value="1">1</button>
+        <button type="button" class="key" data-action="digit" data-value="2">2</button>
+        <button type="button" class="key" data-action="digit" data-value="3">3</button>
+        <button type="button" class="key key--fn" data-action="operator" data-value="EE" data-label="EE">EE</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="pct">%</button>
+
+        <!-- Row 10: 0 . = -->
+        <button type="button" class="key key--zero" data-action="digit" data-value="0">0</button>
+        <button type="button" class="key" data-action="decimal" aria-label="소수점">.</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="ex">eˣ</button>
+        <button type="button" class="key key--eq key--equals" data-action="equals" aria-label="계산">=</button>
+      </div>
+
+      <!-- Basic keypad -->
+      <div class="keys keys--basic hidden" id="keys-basic">
+        <button type="button" class="key key--wide key--clear" data-action="clear">AC</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="neg">±</button>
+        <button type="button" class="key key--fn" data-action="fn" data-value="pct">%</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="/" aria-label="나누기">÷</button>
+
+        <button type="button" class="key" data-action="digit" data-value="7">7</button>
+        <button type="button" class="key" data-action="digit" data-value="8">8</button>
+        <button type="button" class="key" data-action="digit" data-value="9">9</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="*" aria-label="곱하기">×</button>
+
+        <button type="button" class="key" data-action="digit" data-value="4">4</button>
+        <button type="button" class="key" data-action="digit" data-value="5">5</button>
+        <button type="button" class="key" data-action="digit" data-value="6">6</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="-" aria-label="빼기">−</button>
+
+        <button type="button" class="key" data-action="digit" data-value="1">1</button>
+        <button type="button" class="key" data-action="digit" data-value="2">2</button>
+        <button type="button" class="key" data-action="digit" data-value="3">3</button>
+        <button type="button" class="key key--op" data-action="operator" data-value="+" aria-label="더하기">+</button>
+
+        <button type="button" class="key key--zero" data-action="digit" data-value="0">0</button>
+        <button type="button" class="key" data-action="decimal" aria-label="소수점">.</button>
+        <button type="button" class="key key--eq key--equals" data-action="equals" aria-label="계산">=</button>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
